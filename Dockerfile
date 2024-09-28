@@ -8,16 +8,33 @@ RUN mvn clean package -DskipTests
 FROM openjdk:17.0.1-slim
 
 # Install dependencies for Chrome
-RUN apt-get update && apt-get install -y wget unzip xvfb libxi6 libgconf-2-4 libnss3-dev libxss1 libappindicator1 libindicator7
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       wget \
+       gnupg2 \
+       unzip \
+       xvfb \
+       libxi6 \
+       libgconf-2-4 \
+       libnss3 \
+       libxss1 \
+       libappindicator1 \
+       libindicator7 \
+       fonts-liberation \
+       libatk-bridge2.0-0 \
+       libgtk-3-0 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Chrome
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
+    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
     && apt-get update \
-    && apt-get install -y google-chrome-stable
+    && apt-get install -y google-chrome-stable \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install ChromeDriver
-RUN wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip \
+RUN CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE) \
+    && wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip \
     && unzip /tmp/chromedriver.zip -d /usr/local/bin/ \
     && rm /tmp/chromedriver.zip
 
