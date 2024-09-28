@@ -67,7 +67,6 @@ public class NovelBinServiceImpl implements NovelBinService {
         List<ChapterDto> allChapters = new ArrayList<>();
 
         WebDriver driver = null;
-
         try {
 
             // Set Chrome options to enable headless mode

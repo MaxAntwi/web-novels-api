@@ -28,10 +28,12 @@ public class SampleController {
         return new ResponseEntity<>(novelBinService.getChapters(url), HttpStatus.OK);
     }
 
+
     @GetMapping("novel/popular")
     public ResponseEntity<GetNovelsDto> getChapters() {
         return new  ResponseEntity<>(novelBinService.getPopularNovels(), HttpStatus.OK);
     }
+
 
     @GetMapping("novel/read")
     public ResponseEntity<ChapterDto> getChapter(@RequestParam String url) {
