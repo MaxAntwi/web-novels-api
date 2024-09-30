@@ -9,25 +9,22 @@ FROM openjdk:17.0.1-slim
 
 # Install dependencies for Chrome and ChromeDriver
 RUN apt-get update && apt-get install -y wget unzip curl gnupg --no-install-recommends \
-    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-    && apt-get update \
-    && apt-get -y install google-chrome-stable
-
-# Install ChromeDriver for the installed Chrome version
-RUN CHROME_VERSION=$(google-chrome --version | sed -E 's/Google Chrome ([0-9]+)\..*/\1/') \
-    && CHROMEDRIVER_VERSION=$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION) \
-    && wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip \
-    && unzip /tmp/chromedriver.zip -d /usr/local/bin/ \
-    && rm /tmp/chromedriver.zip \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
+    && apt-get update \
+    && apt-get -y install google-chrome-stable \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set the display port to avoid issues in headless mode
 ENV DISPLAY=:99
 
 WORKDIR /app
 COPY --from=BUILD /app/target/sampling-server-0.0.1-SNAPSHOT.jar server.jar
+
+# Add WebDriverManager dependency
+RUN apt-get update && apt-get install -y unzip
+COPY resources/WebDriverManager.jar /app/lib/
 
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "server.jar"]
