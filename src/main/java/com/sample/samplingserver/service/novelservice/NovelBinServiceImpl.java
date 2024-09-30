@@ -39,11 +39,6 @@ public class NovelBinServiceImpl implements NovelBinService {
                     .header("sec-ch-ua", "\"Google Chrome\";v=\"129\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"129\"")
                     .header("sec-ch-ua-mobile", "?0")
                     .header("sec-ch-ua-platform", "\"Windows\"")
-                    .header("sec-fetch-dest", "document")
-                    .header("sec-fetch-mode", "navigate")
-                    .header("sec-fetch-site", "same-origin")
-                    .header("sec-fetch-user", "?1")
-                    .header("upgrade-insecure-requests", "1")
                     .get();
             Elements novels = doc.select(".index-novel .item");
             for (Element novel : novels) {
