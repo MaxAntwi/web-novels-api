@@ -82,15 +82,18 @@ public class NovelBinServiceImpl implements NovelBinService {
         WebDriver driver = WebDriverManager.getDriver();
 
         try {
+
+            url = url + "#tab-chapters-title";
+
             log.info("load driver");
             // Load the page
             driver.get(url);
 
-            try {
-                Thread.sleep(2000); // 5000 milliseconds = 5 seconds
-            } catch (InterruptedException e) {
-                log.error(e.getMessage());
-            }
+//            try {
+//                Thread.sleep(2000); // 5000 milliseconds = 5 seconds
+//            } catch (InterruptedException e) {
+//                log.error(e.getMessage());
+//            }
 
             String pageSource = driver.getPageSource();
 
@@ -161,6 +164,8 @@ public class NovelBinServiceImpl implements NovelBinService {
         } catch (Exception e) {
             log.error("An error: has occurred {}", e.getMessage());
             throw new SamplingErrors.SamplingFailedException();
+        } finally {
+            driver.manage().deleteAllCookies();
         }
     }
 
