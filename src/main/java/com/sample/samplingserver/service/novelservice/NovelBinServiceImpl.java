@@ -35,7 +35,7 @@ public class NovelBinServiceImpl implements NovelBinService {
                     .header("accept-language", "en-US,en;q=0.9")
                     .header("referer", "https://novelbin.me/novel-book/global-killing-awakening-sss-level-talent-at-the-beginning")
                     .cookie("_csrf", "tBd2-B0oEawisdg1UVYhl4P-")
-//                    .cookie("cf_clearance", "Fd9pmYAlNhZc_rYm7ng9P1fmtFvbRTcOv3Gq7JShDgM-1727671509-1.2.1.1-Ja0JyPmZVMslztjZwxT5I4dXJGfGEYRhdtP93kSsmAvfQPwOyx0_z2Bto97LWPtLF2Qm0M.Qo7pzH4M0oI4G3scYyLIVP9cmRPjeCJNtxnJJNuNg_vNAme861AczYir1US6eN_7UuTVxjDrC0rGklQAJ1MLANjU5Gwx2gj5AcEyy0CjJBW4.Ek.okccwOPfl7Z8w3F9o9h5A9.36Cwvjhfi4b2FYrJInO3DszRoAVAziyKOGRiwpfMocd69ykl9uIXg3q8QgSJbGukepEUOxwhR2T0mtGlYYEVmoxpFgrRDgWAAlik1pfWD1yEg7lpbofS8Tnew_Adw5sKCocTC.Mm.w5WqM49NVAoFyrXorFISmEvOprY3N3U.IJnzcPZkL")
+                    .cookie("cf_clearance", "Fd9pmYAlNhZc_rYm7ng9P1fmtFvbRTcOv3Gq7JShDgM-1727671509-1.2.1.1-Ja0JyPmZVMslztjZwxT5I4dXJGfGEYRhdtP93kSsmAvfQPwOyx0_z2Bto97LWPtLF2Qm0M.Qo7pzH4M0oI4G3scYyLIVP9cmRPjeCJNtxnJJNuNg_vNAme861AczYir1US6eN_7UuTVxjDrC0rGklQAJ1MLANjU5Gwx2gj5AcEyy0CjJBW4.Ek.okccwOPfl7Z8w3F9o9h5A9.36Cwvjhfi4b2FYrJInO3DszRoAVAziyKOGRiwpfMocd69ykl9uIXg3q8QgSJbGukepEUOxwhR2T0mtGlYYEVmoxpFgrRDgWAAlik1pfWD1yEg7lpbofS8Tnew_Adw5sKCocTC.Mm.w5WqM49NVAoFyrXorFISmEvOprY3N3U.IJnzcPZkL")
                     .header("sec-ch-ua", "\"Google Chrome\";v=\"129\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"129\"")
                     .header("sec-ch-ua-mobile", "?0")
                     .header("sec-ch-ua-platform", "\"Windows\"")
