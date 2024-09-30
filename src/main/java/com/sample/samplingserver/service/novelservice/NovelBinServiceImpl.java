@@ -76,11 +76,13 @@ public class NovelBinServiceImpl implements NovelBinService {
 
     @Override
     public NovelDto getChapters(String url) {
+        log.info("Starting to get all chapters");
         List<ChapterDto> allChapters = new ArrayList<>();
 
         WebDriver driver = WebDriverManager.getDriver();
 
         try {
+            log.info("load driver");
             // Load the page
             driver.get(url);
 
@@ -91,8 +93,6 @@ public class NovelBinServiceImpl implements NovelBinService {
             }
 
             String pageSource = driver.getPageSource();
-
-            System.out.println(pageSource);
 
             Document doc = Jsoup.parse(pageSource);
             Element chapterList = doc.getElementById("list-chapter");
