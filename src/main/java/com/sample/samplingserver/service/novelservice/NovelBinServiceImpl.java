@@ -29,7 +29,22 @@ public class NovelBinServiceImpl implements NovelBinService {
         log.info("Getting Hot Novels");
         try {
             Document doc = Jsoup.connect(url)
-                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3").get();
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3")
+                    .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+                    .header("accept-encoding", "gzip, deflate, br, zstd")
+                    .header("accept-language", "en-US,en;q=0.9")
+                    .header("referer", "https://novelbin.me/novel-book/global-killing-awakening-sss-level-talent-at-the-beginning")
+                    .cookie("_csrf", "tBd2-B0oEawisdg1UVYhl4P-")
+//                    .cookie("cf_clearance", "Fd9pmYAlNhZc_rYm7ng9P1fmtFvbRTcOv3Gq7JShDgM-1727671509-1.2.1.1-Ja0JyPmZVMslztjZwxT5I4dXJGfGEYRhdtP93kSsmAvfQPwOyx0_z2Bto97LWPtLF2Qm0M.Qo7pzH4M0oI4G3scYyLIVP9cmRPjeCJNtxnJJNuNg_vNAme861AczYir1US6eN_7UuTVxjDrC0rGklQAJ1MLANjU5Gwx2gj5AcEyy0CjJBW4.Ek.okccwOPfl7Z8w3F9o9h5A9.36Cwvjhfi4b2FYrJInO3DszRoAVAziyKOGRiwpfMocd69ykl9uIXg3q8QgSJbGukepEUOxwhR2T0mtGlYYEVmoxpFgrRDgWAAlik1pfWD1yEg7lpbofS8Tnew_Adw5sKCocTC.Mm.w5WqM49NVAoFyrXorFISmEvOprY3N3U.IJnzcPZkL")
+                    .header("sec-ch-ua", "\"Google Chrome\";v=\"129\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"129\"")
+                    .header("sec-ch-ua-mobile", "?0")
+                    .header("sec-ch-ua-platform", "\"Windows\"")
+                    .header("sec-fetch-dest", "document")
+                    .header("sec-fetch-mode", "navigate")
+                    .header("sec-fetch-site", "same-origin")
+                    .header("sec-fetch-user", "?1")
+                    .header("upgrade-insecure-requests", "1")
+                    .get();
             Elements novels = doc.select(".index-novel .item");
             for (Element novel : novels) {
                 String title = novel.select("h3").text();
