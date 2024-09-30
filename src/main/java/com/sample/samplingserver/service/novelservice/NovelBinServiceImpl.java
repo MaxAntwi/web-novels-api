@@ -89,6 +89,8 @@ public class NovelBinServiceImpl implements NovelBinService {
             options.addArguments("--enable-lazy-load-images");
             options.addArguments("--enable-lazy-load-scripts");
 
+            options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+
             // Initialize WebDriver with headless options
             driver = new ChromeDriver(options);
 
@@ -104,6 +106,8 @@ public class NovelBinServiceImpl implements NovelBinService {
             }
 
             String pageSource = driver.getPageSource();
+
+            System.out.println(pageSource);
 
             Document doc = Jsoup.parse(pageSource);
             Element chapterList = doc.getElementById("list-chapter");
