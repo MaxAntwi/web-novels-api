@@ -85,7 +85,7 @@ public class NovelBinServiceImpl implements NovelBinService {
             driver.get(url);
 
             try {
-                Thread.sleep(500); // 5000 milliseconds = 5 seconds
+                Thread.sleep(2000); // 5000 milliseconds = 5 seconds
             } catch (InterruptedException e) {
                 log.error(e.getMessage());
             }
@@ -161,10 +161,6 @@ public class NovelBinServiceImpl implements NovelBinService {
         } catch (Exception e) {
             log.error("An error: has occurred {}", e.getMessage());
             throw new SamplingErrors.SamplingFailedException();
-        } finally {
-            if (driver != null) {
-                driver.quit(); // Close the WebDriver
-            }
         }
     }
 
