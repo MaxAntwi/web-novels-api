@@ -1,5 +1,6 @@
 package com.sample.samplingserver.service.novelservice;
 
+import com.sample.samplingserver.driver.WebDriverManager;
 import com.sample.samplingserver.dto.ChapterDto;
 import com.sample.samplingserver.dto.GetNovelsDto;
 import com.sample.samplingserver.dto.NovelDto;
@@ -77,25 +78,9 @@ public class NovelBinServiceImpl implements NovelBinService {
     public NovelDto getChapters(String url) {
         List<ChapterDto> allChapters = new ArrayList<>();
 
-        WebDriver driver = null;
+        WebDriver driver = WebDriverManager.getDriver();
+
         try {
-
-            // Set Chrome options to enable headless mode
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
-            options.addArguments("--disable-gpu");
-            options.addArguments("--no-sandbox");
-            options.addArguments("--disable-dev-shm-usage");
-            options.addArguments("--enable-lazy-load-images");
-            options.addArguments("--enable-lazy-load-scripts");
-
-            options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
-
-            // Initialize WebDriver with headless options
-            driver = new ChromeDriver(options);
-
-            url = url + "#tab-chapters-title";
-
             // Load the page
             driver.get(url);
 
