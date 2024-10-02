@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -28,15 +30,32 @@ public class NovelBinServiceImpl implements NovelBinService {
         List<NovelDto> hotNovels = new ArrayList<>();
         log.info("Getting Hot Novels");
 
-        WebDriver driver = getDriver();
+//        WebDriver driver = getDriver();
 
         try {
 
-            driver.get(url);
+//            driver.get(url);
+//
+//            String pageSource = driver.getPageSource();
+//
+//            Document doc = Jsoup.parse(pageSource);
 
-            String pageSource = driver.getPageSource();
+            Map<String, String> cookies = new HashMap<>();
+//            cookies.put("your_cookie_name", "your_cookie_value");  // Add cookies if necessary
 
-            Document doc = Jsoup.parse(pageSource);
+            Map<String, String> headers = new HashMap<>();
+            headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+            headers.put("Accept-Language", "en-US,en;q=0.5");
+            headers.put("Referer", url);
+            headers.put("Connection", "keep-alive");
+            headers.put("Upgrade-Insecure-Requests", "1");
+
+            // Make the connection with Jsoup
+            Document doc = Jsoup.connect(url)
+                    .headers(headers)               // Set headers to mimic a real browser
+                    .cookies(cookies)               // Add any cookies if needed
+                    .timeout(10_000)                // Set a timeout (10 seconds)
+                    .get();
 
             Elements novels = doc.select(".index-novel .item");
             for (Element novel : novels) {
@@ -66,10 +85,9 @@ public class NovelBinServiceImpl implements NovelBinService {
             log.error("An error: has occurred {}", e.getMessage());
             throw new SamplingErrors.SamplingFailedException();
         } finally {
-//            driver.manage().deleteAllCookies();
-            if (driver != null) {
-                driver.quit(); // Close the WebDriver
-            }
+//            if (driver != null) {
+//                driver.quit(); // Close the WebDriver
+//            }
         }
 
         return hotNovels;
