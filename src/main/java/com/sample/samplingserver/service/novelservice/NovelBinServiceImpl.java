@@ -1,6 +1,5 @@
 package com.sample.samplingserver.service.novelservice;
 
-import com.sample.samplingserver.driver.WebDriverManager;
 import com.sample.samplingserver.dto.ChapterDto;
 import com.sample.samplingserver.dto.GetNovelsDto;
 import com.sample.samplingserver.dto.NovelDto;
@@ -11,6 +10,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class NovelBinServiceImpl implements NovelBinService {
         List<NovelDto> hotNovels = new ArrayList<>();
         log.info("Getting Hot Novels");
 
-        WebDriver driver = WebDriverManager.getDriver();
+        WebDriver driver = getDriver();
 
         try {
 
@@ -65,7 +66,10 @@ public class NovelBinServiceImpl implements NovelBinService {
             log.error("An error: has occurred {}", e.getMessage());
             throw new SamplingErrors.SamplingFailedException();
         } finally {
-            driver.manage().deleteAllCookies();
+//            driver.manage().deleteAllCookies();
+            if (driver != null) {
+                driver.quit(); // Close the WebDriver
+            }
         }
 
         return hotNovels;
@@ -77,7 +81,7 @@ public class NovelBinServiceImpl implements NovelBinService {
         log.info("Starting to get all chapters");
         List<ChapterDto> allChapters = new ArrayList<>();
 
-        WebDriver driver = WebDriverManager.getDriver();
+        WebDriver driver = getDriver();
 
         try {
 
@@ -86,6 +90,12 @@ public class NovelBinServiceImpl implements NovelBinService {
             log.info("load driver");
             // Load the page
             driver.get(url);
+
+            try {
+                Thread.sleep(500); // 5000 milliseconds = 5 seconds
+            } catch (InterruptedException e) {
+                log.error(e.getMessage());
+            }
 
             String pageSource = driver.getPageSource();
 
@@ -157,15 +167,24 @@ public class NovelBinServiceImpl implements NovelBinService {
             log.error("An error: has occurred {}", e.getMessage());
             throw new SamplingErrors.SamplingFailedException();
         } finally {
-            driver.manage().deleteAllCookies();
+            if (driver != null) {
+                driver.quit(); // Close the WebDriver
+            }
         }
     }
 
     @Override
     public ChapterDto getChapter(String url) {
 
+        WebDriver driver = getDriver();
+
         try {
-            Document doc = Jsoup.connect(url).get();
+
+            driver.get(url);
+
+            String pageSource = driver.getPageSource();
+
+            Document doc = Jsoup.parse(pageSource);
             Element contentElement = doc.getElementById("chr-content");
 
             // Extract the chapter title and content
@@ -203,9 +222,13 @@ public class NovelBinServiceImpl implements NovelBinService {
                     .nextChapterLink(nextChapterLink)
                     .prevChapterLink(prevChapterLink)
                     .build();
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("An error: {}", e.getMessage());
             throw new SamplingErrors.SamplingFailedException();
+        } finally {
+            if (driver != null) {
+                driver.quit();
+            }
         }
 
     }
@@ -272,5 +295,19 @@ public class NovelBinServiceImpl implements NovelBinService {
             log.error("An error: has occurred {}", e.getMessage());
             throw new SamplingErrors.SamplingFailedException();
         }
+    }
+    
+    public WebDriver getDriver() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--enable-lazy-load-images");
+        options.addArguments("--disable-images", "--blink-settings=imagesEnabled=false");
+        options.addArguments("--enable-lazy-load-scripts");
+        options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+
+        return new ChromeDriver(options);
     }
 }
