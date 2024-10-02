@@ -33,7 +33,6 @@ public class NovelBinServiceImpl implements NovelBinService {
 //        WebDriver driver = getDriver();
 
         try {
-
 //            driver.get(url);
 //
 //            String pageSource = driver.getPageSource();
