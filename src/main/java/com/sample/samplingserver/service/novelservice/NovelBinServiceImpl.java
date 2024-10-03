@@ -5,6 +5,7 @@ import com.sample.samplingserver.dto.GetNovelsDto;
 import com.sample.samplingserver.dto.NovelDto;
 import com.sample.samplingserver.exceptions.SamplingErrors;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -39,8 +40,16 @@ public class NovelBinServiceImpl implements NovelBinService {
 //
 //            Document doc = Jsoup.parse(pageSource);
 
-            Map<String, String> cookies = new HashMap<>();
+//            Map<String, String> cookies = new HashMap<>();
 //            cookies.put("your_cookie_name", "your_cookie_value");  // Add cookies if necessary
+
+            Connection.Response initialResponse = Jsoup.connect(url)
+                    .method(Connection.Method.GET)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")
+                    .execute();
+
+            Map<String, String> cookies = initialResponse.cookies();
+            System.out.println("Cookies: " + cookies);
 
             Map<String, String> headers = new HashMap<>();
             headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
